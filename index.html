@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="script" href="script.js" />
+    <link rel="website icon" type="png" href="Images/haze.png" />
   </head>
   <body>
     <div id="loading-screen">
       <div class="card2">
         <div class="screen">
-         <img src="Images/clouds.png" width="300" height="300px">
+         <img src="Images/clouds.png" width="300" height="300px">   
         </div>
         <h1 class="text">WEATHER</h1>
+        <p>-By CodeCrafters</p>
     </div>
     </div>
     <div class="card">
@@ -31,20 +32,20 @@
         <h1 class="temp">30°C</h1>
         <p class="weather-condition">Clear</p>
         <h2 class="city">Nashik</h2>
-        <p class="underline">_____________________________</p>
+        <p class="underline">___________</p>
         <div class="Extra-info">
           <div class="col">
-            <img src="Images/humidity.png" />
+            <img src="Images/humidity.png" id="humidity-img"/>
             <div>
               <p class="humidity">52 %</p>
-              <p>Humidity</p>
+              <p class="col-p">Humidity</p>
             </div>
           </div>
           <div class="col">
-            <img src="Images/wind.png" />
+            <img src="Images/wind.png" id="wind-img"/>
             <div>
               <p class="wind">8.2 km/h</p>
-              <p>wind-speed</p>
+              <p class="col-p">wind-speed</p>
             </div>
           </div>
         </div>
@@ -79,9 +80,12 @@
           var data = await response.json();
 
           document.querySelector(".city").innerHTML = data.name;
-          document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-          document.querySelector(".weather-condition").innerHTML = data.weather[0].main;
-          document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "°C";
+          document.querySelector(".weather-condition").innerHTML =
+            data.weather[0].main;
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + "%";
           document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
 
           if (data.weather[0].main == "Clouds") {
@@ -114,6 +118,18 @@
       searchBtn.addEventListener("click", () => {
         CheckWeather(searchBox.value);
       });
+
+      if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function(error) {
+          console.error('Service Worker registration failed:', error);
+        });
+    });
+  }
     </script>
   </body>
 </html>
